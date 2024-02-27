@@ -1,5 +1,4 @@
 import React from 'react';
-import Validate from './Validate.js';
 import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Form, Button} from 'react-bootstrap';
@@ -43,7 +42,8 @@ const handleAddressChange = (event) => {
 
 const handleSubmit = async(event, isLoginpage) => {
 event.preventDefault();
-	const response = await fetch('http://localhost:4000/api/user/register/',{
+	// const response = await fetch('http://localhost:4000/api/user/register/',{
+		const response = await fetch('https://ecommerce-mern-i4ht.onrender.com/api/user/register/',{
             method:"POST",
             mode: 'cors',
             headers: {

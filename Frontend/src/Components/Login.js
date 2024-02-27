@@ -2,9 +2,8 @@ import React from 'react';
 import {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {Form , Button} from 'react-bootstrap';
-import Validate from './Validate.js';
 import {useNavigate} from 'react-router-dom';
-import {userSelector,useDispatch, useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {login} from '../Redux/Action/ProductAction'
 
 function Login(){
@@ -25,7 +24,8 @@ const handleChange = (event) => {
 const handleSubmit = async(event) => {
 event.preventDefault();
 // setError(Validate(state , true));
-const response = await fetch('http://localhost:4000/api/user/login',{
+// const response = await fetch('http://localhost:4000/api/user/login',{
+	const response = await fetch('https://ecommerce-mern-i4ht.onrender.com/api/user/login',{
 	method:"POST",
 	mode: 'cors',
 	headers: {
