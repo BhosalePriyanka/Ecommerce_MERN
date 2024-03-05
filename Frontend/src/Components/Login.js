@@ -72,6 +72,7 @@ if(!jsonData.error){
 
 		<Button onClick = {handleSubmit} variant="primary"> Submit </Button> 
  		{error && <p style={{color:'red'}}>{error}</p>} 
+		 <Link to= '/Reset'><p>Forgot Password</p></Link>
 
 		<p>New User Register Now.</p>
 		<Link  to = {`/Registerpage`}>

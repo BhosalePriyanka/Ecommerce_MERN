@@ -2,8 +2,9 @@ const User = require('../model/registerModel')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const validator = require('validator')
+const nodemailer = require('nodemailer');
 const createToken = (_id) =>{
-   return jwt.sign({_id},process.env.SECRET,{expiresIn:'3d'})
+   return jwt.sign({_id},process.env.SECRET,{expiresIn:'1m'})
 }
 //login user
 const loginUser = async(req,res)=>{
@@ -89,4 +90,82 @@ catch(error){
   res.json({error:error.message})
 }
 }
-module.exports = {signupUser,loginUser}
+
+const forgotPassword = async(req,res)=>{
+    const{email} = req.body
+    if(!email){
+        return res.json({error:'Email id required'})
+     }
+     if(email){
+        const user = await User.findOne({email})
+        if(!user){
+            return res.json({error:'Email is not registered'})
+        }
+
+        const createToken = (email)=>{
+            return jwt.sign({email},process.env.SECRET,{expiresIn:'5m'})
+         }
+
+         const token = createToken(email)
+         const link = `http://localhost:3000/Password/${token}`
+         var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: process.env.Nodemailer_Email,
+              pass: process.env.Nodemailer_Password
+            }
+          });
+          
+          var mailOptions = {
+            from: 'priyanka.patil970@gmail.com',
+            to: email,
+            subject: 'Reset Password',
+            text:`Please click on link to change your password. Link valid for 5 minutes only. 
+            ${link}`
+          };
+          
+          transporter.sendMail(mailOptions, function(error){
+            if(error) {
+              console.log(error);
+            } else {
+              return res.json({message:`Email sent on: ${email}`})
+            }
+          });
+     } 
+}
+
+const newPassword = async(req,res)=>{
+   let response =  jwt.verify(req.params.token,process.env.SECRET,
+    async function(err, decoded){
+     if(err){
+        res.json({error:"Token expired"})
+     }
+     if(decoded){
+        if(!req.body.email || !req.body.newpassword){
+            res.json({error:"Filled should not empty"})
+        }
+        if(decoded.email === req.body.email){
+            if(!validator.isStrongPassword(req.body.newpassword)){
+               
+                res.json({error:"Passowrd is not strong enough"})
+            }
+            const salt = await bcrypt.genSalt(10)
+            const hash = await bcrypt.hash(req.body.newpassword,salt)
+            try{
+                await ( User.updateOne( { email: req.body.email }, 
+                    { $set: { password: hash } }))
+                res.json({message:'Data Updated'})
+                }
+            catch(error){
+                console.log(error)
+            }
+
+        }
+     }
+    }
+   )
+
+}
+
+
+module.exports = {signupUser,loginUser,forgotPassword,newPassword}

@@ -16,6 +16,8 @@ import { Provider } from 'react-redux';
 import {Store} from './Redux/Store';
 import {ErrorBoundary} from 'react-error-boundary';
 import Fallback  from './Components/Fallback';
+import Reset from './Components/Reset';
+import Password from './Components/Password';
 
 function App() {
 return (
@@ -39,6 +41,8 @@ return (
 <Route exact path = '/Login' element={<Login/>} /> 
 <Route exact path = '/Payment' element={<Payment/>} /> 
 <Route exact path = '/Cart' element={<Cart/>} /> 
+<Route exact path='/Reset' element={<Reset/>}/>
+<Route exact path='/Password/:token' element={<Password/>}/>
 </Routes>
 </ErrorBoundary>
 

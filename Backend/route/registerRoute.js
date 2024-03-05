@@ -1,5 +1,5 @@
 const express = require('express')
-const {loginUser,signupUser} = require('../controller/registerController')
+const {loginUser,signupUser,forgotPassword,newPassword} = require('../controller/registerController')
 const authMiddleware = require('../authMiddleware')
 
 
@@ -14,5 +14,7 @@ const router = express.Router()
 //logout route
 router.post('/register',signupUser)
 router.post('/login',loginUser)
+router.post('/reset',forgotPassword)
+router.post('/password/:token',newPassword)
 
 module.exports = router
