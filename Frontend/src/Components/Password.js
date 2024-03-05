@@ -15,7 +15,7 @@ const{token} = useParams()
 console.log(token)
 const navigate = useNavigate()
 const handlePassword = async() => {
-      const response = await fetch(`http://localhost:4000/api/user/password/${token}`,{
+      const response = await fetch(`https://ecommerce-mern-i4ht.onrender.com/api/user/password/${token}`,{
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify(state)

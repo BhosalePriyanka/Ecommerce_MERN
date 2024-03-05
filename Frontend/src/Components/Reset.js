@@ -11,7 +11,7 @@ const[error,setError] = useState('')
 const[msg, setMsg] = useState('')
 
 const handleSend = async() => {
-      const response = await fetch('http://localhost:4000/api/user/reset',{
+      const response = await fetch('https://ecommerce-mern-i4ht.onrender.com/api/user/reset',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify(state)
